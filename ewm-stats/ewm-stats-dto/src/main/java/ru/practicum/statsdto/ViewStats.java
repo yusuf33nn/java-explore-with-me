@@ -8,12 +8,12 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class ViewStats {
 
-    private Long hits;
     private String app;
     private String uri;
+    private Long hits;
 }
