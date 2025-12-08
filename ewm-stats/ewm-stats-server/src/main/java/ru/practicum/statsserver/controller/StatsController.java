@@ -11,6 +11,7 @@ import ru.practicum.statsserver.service.StatsServiceImpl;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -40,5 +41,16 @@ public class StatsController {
         }
 
         return service.getStats(start, end, uris, unique);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> handleIllegalArgument(IllegalArgumentException ex) {
+        return Map.of(
+                "status", HttpStatus.BAD_REQUEST.value(),
+                "error", "Bad Request",
+                "message", ex.getMessage(),
+                "timestamp", LocalDateTime.now().toString()
+        );
     }
 }
