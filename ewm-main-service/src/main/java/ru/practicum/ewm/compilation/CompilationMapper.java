@@ -4,7 +4,6 @@ import ru.practicum.ewm.compilation.dto.CompilationDto;
 import ru.practicum.ewm.compilation.model.Compilation;
 import ru.practicum.ewm.event.EventMapper;
 import ru.practicum.ewm.event.dto.EventShortDto;
-import ru.practicum.ewm.request.model.RequestStatus;
 
 import java.util.List;
 import java.util.Map;
