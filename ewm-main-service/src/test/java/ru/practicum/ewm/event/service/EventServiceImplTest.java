@@ -70,7 +70,7 @@ class EventServiceImplTest {
                 .title("Title for event")
                 .build();
 
-        assertThrows(ConflictException.class, () -> eventService.addEvent(userId, dto));
+        assertThrows(BadRequestException.class, () -> eventService.addEvent(userId, dto));
         verify(eventRepository, never()).save(any(Event.class));
     }
 

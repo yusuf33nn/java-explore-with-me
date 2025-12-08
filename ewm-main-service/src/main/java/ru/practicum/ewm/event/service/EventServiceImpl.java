@@ -65,7 +65,10 @@ public class EventServiceImpl implements EventService {
         Category category = findCategory(dto.getCategory());
         LocalDateTime eventDate = parseDate(dto.getEventDate());
         if (eventDate.isBefore(DateTimeUtils.now().plusHours(2))) {
-            throw new ConflictException("Field: eventDate. Error: должно содержать дату, которая еще не наступила. Value: " + dto.getEventDate());
+            throw new BadRequestException("Field: eventDate. Error: должно содержать дату, которая еще не наступила. Value: " + dto.getEventDate());
+        }
+        if (dto.getParticipantLimit() != null && dto.getParticipantLimit() < 0) {
+            throw new BadRequestException("Participant limit must be zero or positive");
         }
         Event event = EventMapper.toEntity(dto, category, initiator);
         Event saved = eventRepository.save(event);
@@ -113,7 +116,7 @@ public class EventServiceImpl implements EventService {
         if (request.getEventDate() != null) {
             LocalDateTime eventDate = parseDate(request.getEventDate());
             if (eventDate.isBefore(DateTimeUtils.now().plusHours(2))) {
-                throw new ConflictException("Event date must be at least 2 hours after now");
+                throw new BadRequestException("Event date must be at least 2 hours after now");
             }
             event.setEventDate(eventDate);
         }
@@ -176,7 +179,7 @@ public class EventServiceImpl implements EventService {
         if (request.getEventDate() != null) {
             LocalDateTime newDate = parseDate(request.getEventDate());
             if (newDate.isBefore(DateTimeUtils.now().plusHours(1))) {
-                throw new ConflictException("Event date must be at least 1 hour after publication");
+                throw new BadRequestException("Event date must be at least 1 hour after publication");
             }
             event.setEventDate(newDate);
         }
@@ -214,6 +217,9 @@ public class EventServiceImpl implements EventService {
         LocalDateTime end = parseDateOrNull(rangeEnd);
         if (start == null && end == null) {
             start = DateTimeUtils.now();
+        }
+        if (start != null && end != null && end.isBefore(start)) {
+            throw new BadRequestException("rangeEnd must be after rangeStart");
         }
 
         Sort sorting = "EVENT_DATE".equals(sort) ? Sort.by("eventDate") : Sort.unsorted();
@@ -345,6 +351,9 @@ public class EventServiceImpl implements EventService {
             event.setPaid(paid);
         }
         if (participantLimit != null) {
+            if (participantLimit < 0) {
+                throw new BadRequestException("Participant limit must be zero or positive");
+            }
             event.setParticipantLimit(participantLimit);
         }
         if (requestModeration != null) {
