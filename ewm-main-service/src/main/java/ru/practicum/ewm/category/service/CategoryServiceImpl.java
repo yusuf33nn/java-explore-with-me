@@ -17,7 +17,7 @@ import ru.practicum.ewm.exception.NotFoundException;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
@@ -25,6 +25,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final EventRepository eventRepository;
 
     @Override
+    @Transactional
     public CategoryDto addCategory(NewCategoryDto dto) {
         if (categoryRepository.existsByNameIgnoreCase(dto.getName())) {
             throw new ConflictException("Category name must be unique");
@@ -34,18 +35,19 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
+    @Transactional
     public void deleteCategory(Long catId) {
-        Category category = categoryRepository.findById(catId)
-                .orElseThrow(() -> new NotFoundException("Category with id=" + catId + " was not found"));
-
+        if (!categoryRepository.existsById(catId)) {
+            throw new NotFoundException("Category with id=" + catId + " was not found");
+        }
         if (eventRepository.existsByCategoryId(catId)) {
             throw new ConflictException("Category with id=" + catId + " is not empty");
         }
-
-        categoryRepository.delete(category);
+        categoryRepository.deleteById(catId);
     }
 
     @Override
+    @Transactional
     public CategoryDto updateCategory(Long catId, CategoryDto dto) {
         Category category = categoryRepository.findById(catId)
                 .orElseThrow(() -> new NotFoundException("Category with id=" + catId + " was not found"));

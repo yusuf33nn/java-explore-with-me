@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class CompilationServiceImpl implements CompilationService {
 
     private final CompilationRepository compilationRepository;
@@ -36,6 +36,7 @@ public class CompilationServiceImpl implements CompilationService {
     private final StatsService statsService;
 
     @Override
+    @Transactional
     public CompilationDto create(NewCompilationDto dto) {
         Compilation compilation = new Compilation();
         compilation.setTitle(dto.getTitle());
@@ -48,6 +49,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public void delete(Long compId) {
         if (!compilationRepository.existsById(compId)) {
             throw new NotFoundException("Compilation with id=" + compId + " was not found");
@@ -56,6 +58,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public CompilationDto update(Long compId, UpdateCompilationRequest dto) {
         Compilation compilation = compilationRepository.findById(compId)
                 .orElseThrow(() -> new NotFoundException("Compilation with id=" + compId + " was not found"));
@@ -96,7 +99,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     private Set<Event> fetchEvents(Set<Long> ids) {
-        return eventRepository.findAllById(ids).stream().collect(Collectors.toSet());
+        return eventRepository.findAllByIdIn(ids);
     }
 
     private CompilationDto toDto(Compilation compilation) {

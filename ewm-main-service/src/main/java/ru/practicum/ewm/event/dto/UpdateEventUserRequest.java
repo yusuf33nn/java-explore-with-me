@@ -1,6 +1,7 @@
 package ru.practicum.ewm.event.dto;
 
 import jakarta.validation.constraints.Size;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,6 +27,7 @@ public class UpdateEventUserRequest {
 
     private String eventDate;
 
+    @Valid
     private LocationDto location;
 
     private Boolean paid;

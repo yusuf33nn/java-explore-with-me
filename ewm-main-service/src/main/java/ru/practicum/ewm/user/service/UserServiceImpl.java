@@ -16,13 +16,14 @@ import ru.practicum.ewm.user.repository.UserRepository;
 import java.util.List;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
     @Override
+    @Transactional
     public UserDto createUser(NewUserRequest request) {
         if (userRepository.existsByEmailIgnoreCase(request.getEmail())) {
             throw new ConflictException("User email must be unique");
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(Long userId) {
         if (!userRepository.existsById(userId)) {
             throw new NotFoundException("User with id=" + userId + " was not found");
@@ -40,7 +42,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<UserDto> getUsers(List<Long> ids, int from, int size) {
         Pageable page = PageRequest.of(from / size, size);
         if (ids == null || ids.isEmpty()) {

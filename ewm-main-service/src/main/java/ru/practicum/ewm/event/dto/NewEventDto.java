@@ -1,5 +1,6 @@
 package ru.practicum.ewm.event.dto;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -32,6 +33,7 @@ public class NewEventDto {
     private String eventDate;
 
     @NotNull
+    @Valid
     private LocationDto location;
 
     private Boolean paid = false;
