@@ -81,9 +81,9 @@ public class EventServiceImpl implements EventService {
     public List<EventShortDto> getUserEvents(Long userId, int from, int size) {
         findUser(userId);
         Pageable page = PageRequest.of(from / size, size, Sort.by("id"));
-        Set<Event> events = eventRepository.findAllByInitiatorId(userId, page);
-        Map<Long, Long> confirmed = confirmedCounts(events.stream().toList());
-        Map<Long, Long> views = views(events.stream().toList());
+        List<Event> events = eventRepository.findAllByInitiatorId(userId, page);
+        Map<Long, Long> confirmed = confirmedCounts(events);
+        Map<Long, Long> views = views(events);
         return events.stream()
                 .map(event -> EventMapper.toShortDto(event,
                         confirmed.getOrDefault(event.getId(), 0L),

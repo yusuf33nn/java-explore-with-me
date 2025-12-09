@@ -99,7 +99,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     private Set<Event> fetchEvents(Set<Long> ids) {
-        return eventRepository.findAllByIdIn(ids);
+        return eventRepository.findAllByIdIn(ids).stream().collect(Collectors.toSet());
     }
 
     private CompilationDto toDto(Compilation compilation) {
