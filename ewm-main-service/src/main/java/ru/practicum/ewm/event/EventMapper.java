@@ -1,5 +1,7 @@
 package ru.practicum.ewm.event;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.practicum.ewm.category.CategoryMapper;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.event.dto.EventFullDto;
@@ -13,10 +15,8 @@ import ru.practicum.ewm.user.UserMapper;
 import ru.practicum.ewm.user.model.User;
 import ru.practicum.ewm.util.DateTimeUtils;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class EventMapper {
-
-    private EventMapper() {
-    }
 
     public static Event toEntity(NewEventDto dto, Category category, User initiator) {
         return Event.builder()

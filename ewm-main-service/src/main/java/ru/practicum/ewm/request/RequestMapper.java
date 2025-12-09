@@ -1,13 +1,13 @@
 package ru.practicum.ewm.request;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.practicum.ewm.request.dto.ParticipationRequestDto;
 import ru.practicum.ewm.request.model.ParticipationRequest;
 import ru.practicum.ewm.util.DateTimeUtils;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RequestMapper {
-
-    private RequestMapper() {
-    }
 
     public static ParticipationRequestDto toDto(ParticipationRequest request) {
         return ParticipationRequestDto.builder()
