@@ -44,6 +44,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -80,9 +81,9 @@ public class EventServiceImpl implements EventService {
     public List<EventShortDto> getUserEvents(Long userId, int from, int size) {
         findUser(userId);
         Pageable page = PageRequest.of(from / size, size, Sort.by("id"));
-        List<Event> events = eventRepository.findAllByInitiatorId(userId, page);
-        Map<Long, Long> confirmed = confirmedCounts(events);
-        Map<Long, Long> views = views(events);
+        Set<Event> events = eventRepository.findAllByInitiatorId(userId, page);
+        Map<Long, Long> confirmed = confirmedCounts(events.stream().toList());
+        Map<Long, Long> views = views(events.stream().toList());
         return events.stream()
                 .map(event -> EventMapper.toShortDto(event,
                         confirmed.getOrDefault(event.getId(), 0L),

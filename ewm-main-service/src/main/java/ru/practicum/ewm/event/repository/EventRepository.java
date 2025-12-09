@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import ru.practicum.ewm.event.model.Event;
 
-import java.util.List;
 import java.util.Set;
 
 public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecificationExecutor<Event> {
@@ -13,5 +12,5 @@ public interface EventRepository extends JpaRepository<Event, Long>, JpaSpecific
 
     Set<Event> findAllByIdIn(Set<Long> ids);
 
-    List<Event> findAllByInitiatorId(Long initiatorId, org.springframework.data.domain.Pageable pageable);
+    Set<Event> findAllByInitiatorId(Long initiatorId, org.springframework.data.domain.Pageable pageable);
 }
