@@ -10,7 +10,12 @@
       "name": "Create user (comment author)",
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\n    \"name\": \"Comment Author\",\n    \"email\": \"author@example.com\"\n}"
@@ -46,7 +51,12 @@
       "name": "Create second user (foreign)",
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\n    \"name\": \"Foreign User\",\n    \"email\": \"foreign@example.com\"\n}"
@@ -81,7 +91,12 @@
       "name": "Create category",
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\n    \"name\": \"CommentsCategory\"\n}"
@@ -116,7 +131,12 @@
       "name": "Create event (author)",
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"annotation\": \"Annotation for commentable event\",\n  \"category\": {{categoryId}},\n  \"description\": \"Detailed description for commentable event\",\n  \"eventDate\": \"2035-12-31 12:00:00\",\n  \"location\": {\"lat\": 55.75, \"lon\": 37.61},\n  \"paid\": false,\n  \"participantLimit\": 0,\n  \"requestModeration\": false,\n  \"title\": \"Event with comments\"\n}"
@@ -152,7 +172,12 @@
       "name": "Publish event (admin)",
       "request": {
         "method": "PATCH",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"stateAction\": \"PUBLISH_EVENT\"\n}"
@@ -188,7 +213,12 @@
       "name": "Add comment (author)",
       "request": {
         "method": "POST",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"text\": \"First comment text\"\n}"
@@ -295,7 +325,12 @@
       "name": "Update published comment should fail",
       "request": {
         "method": "PATCH",
-        "header": [],
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
         "body": {
           "mode": "raw",
           "raw": "{\n  \"text\": \"Updated text after publish\"\n}"
